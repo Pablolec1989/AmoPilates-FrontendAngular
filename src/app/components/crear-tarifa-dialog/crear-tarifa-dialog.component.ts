@@ -5,11 +5,12 @@ import { ApiService } from '../../services/api.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-crear-tarifa-dialog',
   standalone: true,
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
   templateUrl: './crear-tarifa-dialog.component.html',
   styleUrl: './crear-tarifa-dialog.component.scss'
 })

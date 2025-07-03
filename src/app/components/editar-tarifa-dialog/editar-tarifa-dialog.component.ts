@@ -6,11 +6,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { Tarifa } from '../../models/turno.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-editar-tarifa-dialog',
   standalone: true,
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
   templateUrl: './editar-tarifa-dialog.component.html',
   styleUrl: './editar-tarifa-dialog.component.scss'
 })
