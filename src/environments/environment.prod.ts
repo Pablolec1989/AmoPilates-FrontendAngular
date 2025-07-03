@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://amopilatesgaiman.somee.com/api'
+  apiUrl: process.env['NETLIFY_API_URL'] || 'https://amopilatesgaiman.somee.com/api'
 }; 
