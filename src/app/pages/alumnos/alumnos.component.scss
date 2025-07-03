@@ -1,0 +1,443 @@
+.alumnos-container {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.main-card {
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+mat-card-header {
+  margin-bottom: 24px;
+  
+  mat-card-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #2c3e50;
+    
+    mat-icon {
+      font-size: 2rem;
+      width: 2rem;
+      height: 2rem;
+      color: #26a69a;
+    }
+  }
+  
+  mat-card-subtitle {
+    font-size: 1.1rem;
+    color: #7f8c8d;
+    margin-top: 8px;
+  }
+}
+
+.controls-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+  
+  .left-controls {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .right-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    
+    .search-field {
+      min-width: 250px;
+    }
+    
+    .filter-field {
+      min-width: 150px;
+    }
+  }
+}
+
+.pagination-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 8px 16px;
+  background: rgba(38, 166, 154, 0.1);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #26a69a;
+  font-weight: 500;
+}
+
+.table-container {
+  position: relative;
+  min-height: 400px;
+  
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+    gap: 16px;
+    
+    p {
+      color: #7f8c8d;
+      font-size: 1.1rem;
+    }
+  }
+}
+
+.alumnos-table {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  
+  .mat-mdc-header-cell {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.9rem;
+  }
+  
+  .mat-mdc-cell {
+    padding: 16px 8px;
+    border-bottom: 1px solid #e9ecef;
+  }
+  
+  .mat-mdc-row:hover {
+    background: rgba(38, 166, 154, 0.05);
+  }
+}
+
+.nombre-info {
+  .nombre {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.9rem;
+  }
+  
+  .apellido {
+    color: #26a69a;
+    font-size: 0.8rem;
+    margin-top: 2px;
+  }
+}
+
+.telefono-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+  span {
+    font-family: 'Courier New', monospace;
+    font-weight: 500;
+  }
+  
+  button {
+    transition: all 0.2s ease;
+    
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
+
+.edad-badge {
+  background-color: #e3f2fd;
+  color: #1976d2;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  
+  &.no-data {
+    background-color: #f5f5f5;
+    color: #757575;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  
+  button {
+    transition: all 0.2s ease;
+    
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
+
+.no-data {
+  text-align: center;
+  padding: 48px 24px;
+  
+  mat-icon {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+    color: #bdc3c7;
+    margin-bottom: 16px;
+  }
+  
+  h3 {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+  }
+  
+  p {
+    color: #7f8c8d;
+    font-size: 1.1rem;
+    margin-bottom: 24px;
+  }
+}
+
+// Estilos para checkboxes
+.mat-mdc-checkbox {
+  .mdc-checkbox {
+    .mdc-checkbox__background {
+      border-color: #26a69a !important;
+    }
+    
+    &.mdc-checkbox--selected .mdc-checkbox__background {
+      background-color: #26a69a !important;
+      border-color: #26a69a !important;
+    }
+  }
+}
+
+// Vista de tarjetas para móviles
+.mobile-view {
+  display: none;
+}
+
+.desktop-view {
+  display: block;
+}
+
+.cards-container {
+  display: grid;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.alumno-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
+  
+  .card-header {
+    padding: 16px;
+    background: linear-gradient(135deg, #26a69a 0%, #00897b 100%);
+    color: white;
+    
+    .alumno-info {
+      h3 {
+        margin: 0 0 8px 0;
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+      
+      .status-badges {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        
+        .badge {
+          padding: 4px 8px;
+          border-radius: 12px;
+          font-size: 0.75rem;
+          font-weight: 500;
+          
+          &.active {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+          }
+          
+          &.inactive {
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+          }
+          
+          &.paid {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+          }
+          
+          &.pending {
+            background: rgba(255, 152, 0, 0.2);
+            color: #ff9800;
+          }
+        }
+      }
+    }
+  }
+  
+  .card-content {
+    padding: 16px;
+    
+    .contact-info {
+      margin-bottom: 16px;
+      
+      .phone-section {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        
+        mat-icon {
+          color: #666;
+          font-size: 1.2rem;
+        }
+        
+        span {
+          flex: 1;
+          font-family: 'Courier New', monospace;
+          font-weight: 500;
+        }
+        
+        .whatsapp-btn {
+          color: #25d366;
+        }
+      }
+    }
+    
+    .card-actions {
+      display: flex;
+      gap: 8px;
+      
+      button {
+        flex: 1;
+        height: 40px;
+        font-size: 0.9rem;
+        
+        mat-icon {
+          margin-right: 4px;
+        }
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .alumnos-container {
+    padding: 16px;
+  }
+  
+  .controls-section {
+    flex-direction: column;
+    align-items: stretch;
+    
+    .left-controls, .right-controls {
+      justify-content: center;
+    }
+    
+    .search-field, .filter-field {
+      min-width: auto;
+      width: 100%;
+    }
+  }
+  
+  .pagination-info {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+  
+  // Ocultar tabla en móviles, mostrar tarjetas
+  .desktop-view {
+    display: none;
+  }
+  
+  .mobile-view {
+    display: block;
+  }
+  
+  .cards-container {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .alumno-card {
+    .card-header {
+      padding: 12px;
+      
+      .alumno-info {
+        h3 {
+          font-size: 1.1rem;
+        }
+        
+        .status-badges {
+          gap: 6px;
+          
+          .badge {
+            font-size: 0.7rem;
+            padding: 3px 6px;
+          }
+        }
+      }
+    }
+    
+    .card-content {
+      padding: 12px;
+      
+      .card-actions {
+        flex-direction: column;
+        gap: 6px;
+        
+        button {
+          height: 36px;
+          font-size: 0.85rem;
+        }
+      }
+    }
+  }
+}
+
+// Animaciones
+.alumnos-container {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Material Design color overrides para alumnos
+.mat-raised-button.mat-primary {
+  background: linear-gradient(135deg, #26a69a 0%, #00897b 100%);
+}
+
+.mat-raised-button.mat-accent {
+  background: linear-gradient(135deg, #42a5f5 0%, #1976d2 100%);
+}
+
+.mat-raised-button.mat-warn {
+  background: linear-gradient(135deg, #ff7043 0%, #f4511e 100%);
+} 

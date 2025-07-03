@@ -1,0 +1,116 @@
+.editar-instructor-dialog {
+  min-width: 400px;
+  max-width: 500px;
+
+  h2[mat-dialog-title] {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 16px 24px 0;
+    color: #1976d2;
+
+    mat-icon {
+      color: #1976d2;
+    }
+  }
+
+  mat-dialog-content {
+    padding: 16px 24px;
+    max-height: 70vh;
+    overflow-y: auto;
+
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+
+      .instructor-info {
+        background-color: #f5f5f5;
+        padding: 12px;
+        border-radius: 4px;
+        margin-bottom: 8px;
+
+        p {
+          margin: 0;
+          color: #666;
+          font-size: 14px;
+        }
+      }
+
+      .full-width {
+        width: 100%;
+      }
+
+      .checkbox-container {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 8px;
+
+        mat-checkbox {
+          margin-right: 16px;
+        }
+      }
+    }
+  }
+
+  mat-dialog-actions {
+    padding: 16px 24px;
+    margin: 0;
+    gap: 8px;
+
+    button {
+      min-width: 100px;
+
+      mat-spinner {
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 600px) {
+  .editar-instructor-dialog {
+    min-width: 90vw;
+    max-width: 95vw;
+
+    mat-dialog-content {
+      padding: 12px 16px;
+    }
+
+    mat-dialog-actions {
+      padding: 12px 16px;
+      flex-direction: column-reverse;
+
+      button {
+        width: 100%;
+        margin: 4px 0;
+      }
+    }
+  }
+}
+
+// Material Design improvements
+::ng-deep {
+  .editar-instructor-dialog {
+    .mat-mdc-dialog-container {
+      border-radius: 8px;
+    }
+
+    .mat-mdc-form-field {
+      .mat-mdc-text-field-wrapper {
+        border-radius: 4px;
+      }
+    }
+
+    .mat-mdc-checkbox {
+      .mdc-checkbox {
+        .mdc-checkbox__background {
+          border-radius: 2px;
+        }
+      }
+    }
+  }
+} 

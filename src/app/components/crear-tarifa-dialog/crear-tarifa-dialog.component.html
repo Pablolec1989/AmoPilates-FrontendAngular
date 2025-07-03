@@ -1,0 +1,33 @@
+<h2>Crear Tarifa</h2>
+<form [formGroup]="tarifaForm" (ngSubmit)="guardar()">
+  <mat-form-field appearance="fill" style="width: 100%; margin-bottom: 16px;">
+    <mat-label>Cantidad de Turnos</mat-label>
+    <input matInput type="number" formControlName="cantidadTurnos" min="1" required>
+    <mat-error *ngIf="tarifaForm.get('cantidadTurnos')?.hasError('required')">
+      La cantidad de turnos es obligatoria
+    </mat-error>
+    <mat-error *ngIf="tarifaForm.get('cantidadTurnos')?.hasError('min')">
+      Debe ser al menos 1
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" style="width: 100%; margin-bottom: 16px;">
+    <mat-label>Precio</mat-label>
+    <input matInput type="number" formControlName="precio" min="0" required>
+    <mat-error *ngIf="tarifaForm.get('precio')?.hasError('required')">
+      El precio es obligatorio
+    </mat-error>
+    <mat-error *ngIf="tarifaForm.get('precio')?.hasError('min')">
+      El precio no puede ser negativo
+    </mat-error>
+  </mat-form-field>
+
+  <div *ngIf="error" style="color: red; margin-bottom: 8px;">{{ error }}</div>
+
+  <div style="display: flex; justify-content: flex-end; gap: 8px;">
+    <button mat-button type="button" (click)="cancelar()" [disabled]="loading">Cancelar</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="tarifaForm.invalid || loading">
+      Guardar
+    </button>
+  </div>
+</form>

@@ -1,0 +1,88 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title>
+    <mat-icon>{{ data.esEdicion ? 'edit' : 'add' }}</mat-icon>
+    {{ data.esEdicion ? 'Editar Turno' : 'Crear Nuevo Turno' }}
+  </h2>
+
+  <div *ngIf="loadingDatos" class="loading-datos-container">
+    <mat-spinner></mat-spinner>
+    <p>Cargando datos...</p>
+  </div>
+
+  <form *ngIf="!loadingDatos" [formGroup]="turnoForm" (ngSubmit)="onSubmit()">
+    <mat-dialog-content>
+      <div class="form-content">
+        <!-- Horario -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Horario</mat-label>
+          <mat-select formControlName="horarioId" required>
+            <mat-option *ngFor="let horario of horarios" [value]="horario.id">
+              {{ getHorarioCompleto(horario) }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="turnoForm.get('horarioId')?.hasError('required')">
+            El horario es requerido
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Instructor -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Instructor</mat-label>
+          <mat-select formControlName="instructorId" required>
+            <mat-option *ngFor="let instructor of instructores" [value]="instructor.id">
+              {{ getNombreCompletoInstructor(instructor) }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="turnoForm.get('instructorId')?.hasError('required')">
+            El instructor es requerido
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Capacidad -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Capacidad</mat-label>
+          <input matInput type="number" formControlName="capacidad" min="1" max="20" required>
+          <mat-error *ngIf="turnoForm.get('capacidad')?.hasError('required')">
+            La capacidad es requerida
+          </mat-error>
+          <mat-error *ngIf="turnoForm.get('capacidad')?.hasError('min')">
+            La capacidad mínima es 1
+          </mat-error>
+          <mat-error *ngIf="turnoForm.get('capacidad')?.hasError('max')">
+            La capacidad máxima es 20
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Selección de Alumnos -->
+        <div class="alumnos-section">
+          <h3>Alumnos ({{ alumnosSeleccionados.length }}/{{ turnoForm.value.capacidad }})</h3>
+          <p class="subtitle">Selecciona los alumnos que asistirán a este turno</p>
+          <mat-list>
+            <mat-list-item *ngFor="let alumno of alumnos">
+              <mat-checkbox
+                [checked]="isAlumnoSeleccionado(alumno.id)"
+                (change)="toggleAlumno(alumno.id)"
+                [disabled]="!isAlumnoSeleccionado(alumno.id) && alumnosSeleccionados.length >= turnoForm.value.capacidad">
+                {{ getNombreCompletoAlumno(alumno) }}
+              </mat-checkbox>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+      <button mat-button type="button" (click)="onCancel()" [disabled]="loading">
+        Cancelar
+      </button>
+      <button 
+        mat-raised-button 
+        color="primary" 
+        type="submit" 
+        [disabled]="turnoForm.invalid || loading">
+        <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+        <span *ngIf="!loading">{{ data.esEdicion ? 'Guardar Cambios' : 'Crear Turno' }}</span>
+      </button>
+    </mat-dialog-actions>
+  </form>
+</div> 

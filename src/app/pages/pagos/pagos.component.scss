@@ -1,0 +1,112 @@
+.ganancia-total-card {
+  margin-bottom: 24px;
+  background: linear-gradient(135deg, #26a69a 0%, #00897b 100%);
+  color: #fff;
+  h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 0;
+  }
+  mat-icon {
+    color: #fff;
+    margin-right: 8px;
+  }
+}
+
+.pagos-instructores-card {
+  margin-bottom: 24px;
+  mat-card-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #2c3e50;
+    mat-icon {
+      color: #26a69a;
+      font-size: 2rem;
+    }
+  }
+}
+
+.pagos-container {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.main-card {
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+mat-card-header {
+  margin-bottom: 24px;
+  mat-card-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #2c3e50;
+    mat-icon {
+      font-size: 2rem;
+      width: 2rem;
+      height: 2rem;
+      color: #26a69a;
+    }
+  }
+  mat-card-subtitle {
+    font-size: 1.1rem;
+    color: #7f8c8d;
+    margin-top: 8px;
+  }
+}
+
+.resumen-pagos {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.resumen-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+}
+.resumen-label {
+  font-weight: 600;
+  color: #2c3e50;
+}
+.resumen-valor {
+  color: #26a69a;
+  font-weight: 700;
+}
+
+.table-container {
+  position: relative;
+  min-height: 200px;
+}
+
+.mat-table {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.mat-mdc-header-cell {
+  background: #f8f9fa;
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 0.9rem;
+}
+
+.mat-mdc-cell {
+  padding: 16px 8px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.mat-mdc-row:hover {
+  background: rgba(38, 166, 154, 0.05);
+} 

@@ -1,0 +1,53 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title>
+    <mat-icon>edit</mat-icon>
+    Editar Horario
+  </h2>
+
+  <form [formGroup]="horarioForm" (ngSubmit)="onSubmit()">
+    <mat-dialog-content>
+      <div class="form-content">
+        <p class="dialog-description">
+          Modifica los datos del horario para el {{ getDiaNombre(data.horario.dia) }} a las {{ data.horario.hora }}
+        </p>
+
+        <!-- Campo Día -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Día de la semana</mat-label>
+          <mat-select formControlName="dia" required>
+            <mat-option *ngFor="let dia of diasSemana" [value]="dia.id">
+              {{ dia.nombre }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="horarioForm.get('dia')?.hasError('required')">
+            El día es requerido
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Campo Hora -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Hora</mat-label>
+          <input matInput type="time" formControlName="hora" required>
+          <mat-icon matSuffix>access_time</mat-icon>
+          <mat-error *ngIf="horarioForm.get('hora')?.hasError('required')">
+            La hora es requerida
+          </mat-error>
+          <mat-error *ngIf="horarioForm.get('hora')?.hasError('pattern')">
+            Formato de hora inválido (HH:MM)
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+      <button mat-button type="button" (click)="onCancel()" [disabled]="loading">
+        Cancelar
+      </button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="horarioForm.invalid || loading">
+        <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
+        <mat-icon *ngIf="!loading">save</mat-icon>
+        {{ loading ? 'Guardando...' : 'Guardar Cambios' }}
+      </button>
+    </mat-dialog-actions>
+  </form>
+</div>

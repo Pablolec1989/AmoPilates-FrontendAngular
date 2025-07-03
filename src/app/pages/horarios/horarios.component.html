@@ -1,0 +1,115 @@
+<div class="horarios-container">
+  <mat-card class="main-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>schedule</mat-icon>
+        Gestión de Horarios
+      </mat-card-title>
+      <mat-card-subtitle>
+        Administra los horarios disponibles para las clases
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Controles superiores -->
+      <div class="controls-section">
+        <div class="left-controls">
+          <button mat-raised-button color="primary" (click)="crearHorario()">
+            <mat-icon>add</mat-icon>
+            Crear Horario
+          </button>
+          
+          <button mat-raised-button color="accent" (click)="actualizarHorarios()">
+            <mat-icon>refresh</mat-icon>
+            Actualizar
+          </button>
+        </div>
+
+        <div class="right-controls">
+          <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Buscar por hora</mat-label>
+            <input matInput [(ngModel)]="filtroHora" (input)="aplicarFiltro($event)" placeholder="Buscar horarios...">
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="filter-field">
+            <mat-label>Día de la semana</mat-label>
+            <mat-select [(ngModel)]="filtroDia" (selectionChange)="onFiltroChange()">
+              <mat-option *ngFor="let dia of diasSemana" [value]="dia.id">
+                {{ dia.nombre }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Tabla de horarios -->
+      <div class="table-container">
+        <div class="loading-container" *ngIf="loading">
+          <mat-spinner></mat-spinner>
+          <p>Cargando horarios...</p>
+        </div>
+
+        <table mat-table [dataSource]="dataSource" matSort class="horarios-table" *ngIf="!loading">
+          <!-- Columna Día -->
+          <ng-container matColumnDef="dia">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Día </th>
+            <td mat-cell *matCellDef="let horario"> 
+              <div class="dia-info">
+                <div class="dia-badge" [style.background-color]="getDiaColor(horario.dia)">
+                  {{ getDiaNombre(horario.dia) }}
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Columna Hora -->
+          <ng-container matColumnDef="hora">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Hora </th>
+            <td mat-cell *matCellDef="let horario"> 
+              <div class="hora-info">
+                <mat-icon class="time-icon">access_time</mat-icon>
+                <span class="hora-text">{{ horario.hora }}</span>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Columna Acciones -->
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+            <td mat-cell *matCellDef="let horario"> 
+              <div class="action-buttons">
+                <button mat-icon-button color="primary" (click)="editarHorario(horario)" matTooltip="Editar horario">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="eliminarHorario(horario)" matTooltip="Eliminar horario">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <!-- Paginador -->
+        <mat-paginator 
+          [pageSizeOptions]="[10, 15, 25, 50]" 
+          showFirstLastButtons>
+        </mat-paginator>
+      </div>
+
+      <!-- Mensaje cuando no hay horarios -->
+      <div class="no-data" *ngIf="!loading && dataSource.data.length === 0">
+        <mat-icon>schedule</mat-icon>
+        <h3>No hay horarios disponibles</h3>
+        <p>Crea un nuevo horario para comenzar</p>
+        <button mat-raised-button color="primary" (click)="crearHorario()">
+          <mat-icon>add</mat-icon>
+          Crear Primer Horario
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div> 

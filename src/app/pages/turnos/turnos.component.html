@@ -1,0 +1,322 @@
+<div class="turnos-container">
+  <mat-card class="main-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>schedule</mat-icon>
+        Calendario de Turnos
+      </mat-card-title>
+      <mat-card-subtitle>
+        Gestión avanzada de turnos con vista de calendario
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Barra de herramientas superior -->
+      <div class="toolbar-section">
+        <div class="left-toolbar">
+          <button mat-raised-button color="primary" (click)="crearTurno()">
+            <mat-icon>add</mat-icon>
+            Nuevo Turno
+          </button>
+          
+          <button mat-raised-button color="accent" (click)="actualizarTurnos()">
+            <mat-icon>refresh</mat-icon>
+            Actualizar
+          </button>
+
+          <button mat-raised-button color="accent" (click)="exportarDatos()" matTooltip="Exportar a CSV">
+            <mat-icon>download</mat-icon>
+            Exportar CSV
+          </button>
+        </div>
+
+        <div class="right-toolbar">
+          <!-- Botón de Calendario eliminado -->
+        </div>
+      </div>
+
+      <!-- Filtros avanzados -->
+      <div class="filters-section" *ngIf="!vistaCalendario">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>filter_list</mat-icon>
+              Filtros Avanzados
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          
+          <div class="filters-content">
+            <div class="filter-row">
+              <mat-form-field appearance="outline" class="filter-field">
+                <mat-label>Instructor</mat-label>
+                <mat-select [(ngModel)]="filtroInstructor" (selectionChange)="onFiltroChange()">
+                  <mat-option [value]="0">Todos los instructores</mat-option>
+                  <mat-option *ngFor="let instructor of instructores" [value]="instructor.id">
+                    {{ instructor.nombre }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="filter-field">
+                <mat-label>Horario</mat-label>
+                <mat-select [(ngModel)]="filtroHorario" (selectionChange)="onFiltroChange()">
+                  <mat-option [value]="0">Todos los horarios</mat-option>
+                  <mat-option *ngFor="let horario of horarios" [value]="horario.id">
+                    {{ horario.diaNombre }} {{ horario.hora }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="filter-field">
+                <mat-label>Estado de cupos</mat-label>
+                <mat-select [(ngModel)]="filtroCupos" (selectionChange)="onFiltroCuposChange()">
+                  <mat-option [value]="0">Todos</mat-option>
+                  <mat-option [value]="1">Con cupos disponibles</mat-option>
+                  <mat-option [value]="2">Completos</mat-option>
+                  <mat-option [value]="3">Vacíos</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="filter-row">
+              <mat-checkbox [(ngModel)]="mostrarConflictos" (change)="onFiltroChange()">
+                Mostrar conflictos de horarios
+              </mat-checkbox>
+              
+              <mat-checkbox [(ngModel)]="mostrarSoloHoy" (change)="onFiltroChange()">
+                Solo turnos de hoy
+              </mat-checkbox>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </div>
+
+      <!-- Estadísticas rápidas -->
+      <div class="stats-section">
+        <mat-card class="stat-card">
+          <mat-card-content>
+            <div class="stat-item">
+              <mat-icon color="primary">schedule</mat-icon>
+              <div class="stat-info">
+                <span class="stat-number">{{ getTotalTurnos() }}</span>
+                <span class="stat-label">Total Turnos</span>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="stat-card">
+          <mat-card-content>
+            <div class="stat-item">
+              <mat-icon color="accent">people</mat-icon>
+              <div class="stat-info">
+                <span class="stat-number">{{ getTotalAlumnos() }}</span>
+                <span class="stat-label">Total Alumnos</span>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="stat-card">
+          <mat-card-content>
+            <div class="stat-item">
+              <mat-icon color="warn">warning</mat-icon>
+              <div class="stat-info">
+                <span class="stat-number">{{ getTurnosCompletos() }}</span>
+                <span class="stat-label">Turnos Completos</span>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="stat-card">
+          <mat-card-content>
+            <div class="stat-item">
+              <mat-icon color="primary">trending_up</mat-icon>
+              <div class="stat-info">
+                <span class="stat-number">{{ getOcupacionPromedio() }}%</span>
+                <span class="stat-label">Ocupación Promedio</span>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Vista de Grilla de Turnos -->
+      <div class="turnos-calendario-container">
+        <table class="calendar-table">
+          <thead>
+            <tr>
+              <th>Hora</th>
+              <th *ngFor="let dia of semanaActual">{{ getDiaNombre(dia) }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let hora of horasDelDia">
+              <td class="time-cell">{{ hora }}</td>
+              <td class="day-cell" *ngFor="let dia of semanaActual">
+                <ng-container *ngIf="getTurnosPorDiaYHora(dia, hora).length > 0; else emptyCell">
+                  <div class="turno-item" *ngFor="let turno of getTurnosPorDiaYHora(dia, hora)">
+                    <div style="font-weight:bold; color:#1976d2;">{{ turno.instructor.nombre }} {{ turno.instructor.apellido }}</div>
+                    <div [ngClass]="{'cupos-verde': turno.cuposDisponibles > 0}" style="font-size:12px; color:#444;">
+                      Cupos: {{ turno.cuposDisponibles }} / {{ turno.capacidad }}
+                    </div>
+                    <div *ngIf="turno.alumnos && turno.alumnos.length > 0" style="margin-top:4px;">
+                      <ul style="margin:0 0 0 12px; padding:0; list-style-type: disc;">
+                        <li *ngFor="let alumno of turno.alumnos" style="font-size:13px; padding:0; margin:0;">
+                          {{ getNombreCompleto(alumno) }}
+                        </li>
+                      </ul>
+                    </div>
+                    <div *ngIf="!turno.alumnos || turno.alumnos.length === 0" style="font-size:12px; color:#888;">Sin alumnos</div>
+                    <button mat-mini-button color="primary" (click)="editarTurno(turno)" style="margin-top:6px;">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                  </div>
+                </ng-container>
+                <ng-template #emptyCell>
+                  <!-- Celda vacía -->
+                </ng-template>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Vista de Tabla -->
+      <div class="table-view" *ngIf="!vistaCalendario">
+        <div class="loading-container" *ngIf="loading">
+          <mat-spinner></mat-spinner>
+          <p>Cargando turnos...</p>
+        </div>
+
+        <table mat-table [dataSource]="dataSource" matSort class="turnos-table" *ngIf="!loading">
+          <!-- Columna Horario -->
+          <ng-container matColumnDef="horario">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Horario </th>
+            <td mat-cell *matCellDef="let turno"> 
+              <div class="horario-info">
+                <div class="dia-hora">{{ turno.horario.diaNombre }} {{ turno.horario.hora }}</div>
+                <div class="fecha" *ngIf="turno.fecha">
+                  {{ turno.fecha | date:'dd/MM/yyyy' }}
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Columna Instructor -->
+          <ng-container matColumnDef="instructor">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Instructor </th>
+            <td mat-cell *matCellDef="let turno"> 
+              <div class="instructor-info">
+                <div class="instructor-name">{{ turno.instructor.nombre }} {{ turno.instructor.apellido }}</div>
+                <div class="instructor-email" *ngIf="turno.instructor.email">{{ turno.instructor.email }}</div>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Columna Capacidad -->
+          <ng-container matColumnDef="capacidad">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Capacidad </th>
+            <td mat-cell *matCellDef="let turno"> 
+              <div class="capacidad-info">
+                <span class="capacidad-total">{{ turno.capacidad }}</span>
+                <div class="ocupacion-bar">
+                  <div class="ocupacion-fill" 
+                       [style.width.%]="getOcupacionPorcentaje(turno)"
+                       [class.full]="turno.cuposDisponibles === 0"></div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Columna Cupos Disponibles -->
+          <ng-container matColumnDef="cuposDisponibles">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Cupos Disponibles </th>
+            <td mat-cell *matCellDef="let turno"> 
+              <span class="cupos-badge" 
+                    [class.full]="turno.cuposDisponibles === 0"
+                    [class.warning]="turno.cuposDisponibles <= 2 && turno.cuposDisponibles > 0">
+                {{ turno.cuposDisponibles }}
+              </span>
+            </td>
+          </ng-container>
+
+          <!-- Columna Alumnos -->
+          <ng-container matColumnDef="alumnos">
+            <th mat-header-cell *matHeaderCellDef> Alumnos </th>
+            <td mat-cell *matCellDef="let turno"> 
+              <div class="alumnos-list">
+                <div class="alumnos-count" *ngIf="turno.alumnos.length > 0">
+                  {{ turno.alumnos.length }} alumno{{ turno.alumnos.length > 1 ? 's' : '' }}
+                </div>
+                <div class="alumnos-names" *ngIf="turno.alumnos.length > 0">
+                  <span *ngFor="let alumno of turno.alumnos.slice(0, 3); let last = last">
+                    {{ getNombreCompleto(alumno) }}{{ !last ? ', ' : '' }}
+                  </span>
+                  <span *ngIf="turno.alumnos.length > 3" class="more-alumnos">
+                    +{{ turno.alumnos.length - 3 }} más
+                  </span>
+                </div>
+                <span *ngIf="turno.alumnos.length === 0" class="no-alumnos">
+                  Sin alumnos
+                </span>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Columna Estado -->
+          <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef> Estado </th>
+            <td mat-cell *matCellDef="let turno"> 
+              <div class="estado-info">
+                <mat-icon [color]="getEstadoColor(turno)" class="estado-icon">
+                  {{ getEstadoIcon(turno) }}
+                </mat-icon>
+                <span class="estado-text">{{ getEstadoTexto(turno) }}</span>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Columna Acciones -->
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+            <td mat-cell *matCellDef="let turno"> 
+              <div class="action-buttons">
+                <button mat-icon-button color="primary" (click)="editarTurno(turno)" matTooltip="Editar turno">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="accent" (click)="verDetalles(turno)" matTooltip="Ver detalles">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="eliminarTurno(turno)" matTooltip="Eliminar turno">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <!-- Paginador -->
+        <mat-paginator 
+          [pageSizeOptions]="[10, 15, 25, 50]" 
+          showFirstLastButtons>
+        </mat-paginator>
+      </div>
+
+      <!-- Mensaje cuando no hay turnos -->
+      <div class="no-data" *ngIf="!loading && dataSource.data.length === 0">
+        <mat-icon>schedule</mat-icon>
+        <h3>No hay turnos disponibles</h3>
+        <p>Crea un nuevo turno para comenzar</p>
+        <button mat-raised-button color="primary" (click)="crearTurno()">
+          <mat-icon>add</mat-icon>
+          Crear Primer Turno
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div> 

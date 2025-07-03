@@ -1,0 +1,43 @@
+<div class="pagos-container">
+  <mat-card class="main-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>payments</mat-icon>
+        Pagos y Ganancias
+      </mat-card-title>
+      <mat-card-subtitle>
+        Resumen de pagos a instructores y ganancias del sistema
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="resumen-pagos">
+        <div class="resumen-item">
+          <span class="resumen-label">Ganancia Total:</span>
+          <span class="resumen-valor">{{ gananciaTotal | currency:'ARS' }}</span>
+        </div>
+        <div class="resumen-item">
+          <span class="resumen-label">Pago total a Instructores:</span>
+          <span class="resumen-valor">{{ gananciaTotalInstructores | currency:'ARS' }}</span>
+        </div>
+      </div>
+      <div class="table-container">
+        <table mat-table [dataSource]="pagos" class="mat-elevation-z8">
+          <ng-container matColumnDef="nombreCompleto">
+            <th mat-header-cell *matHeaderCellDef>Instructor</th>
+            <td mat-cell *matCellDef="let pago">{{ pago.nombreCompleto }}</td>
+          </ng-container>
+          <ng-container matColumnDef="porcentajePago">
+            <th mat-header-cell *matHeaderCellDef>% Pago</th>
+            <td mat-cell *matCellDef="let pago">{{ pago.porcentajePago }}%</td>
+          </ng-container>
+          <ng-container matColumnDef="pago">
+            <th mat-header-cell *matHeaderCellDef>A Pagar</th>
+            <td mat-cell *matCellDef="let pago">{{ pago.pago | currency:'ARS' }}</td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="['nombreCompleto', 'porcentajePago', 'pago']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['nombreCompleto', 'porcentajePago', 'pago'];"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div> 

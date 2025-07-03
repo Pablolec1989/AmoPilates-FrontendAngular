@@ -1,0 +1,688 @@
+.turnos-container {
+  padding: 20px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.main-card {
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+// Barra de herramientas
+.toolbar-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.left-toolbar, .right-toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.center-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.today-button {
+  background: linear-gradient(135deg, #1976d2, #1565c0);
+  color: white;
+  border-radius: 20px;
+  padding: 8px 16px;
+}
+
+.today-button:hover {
+  background: linear-gradient(135deg, #1565c0, #0d47a1);
+}
+
+.week-display {
+  font-weight: 500;
+  color: #333;
+  margin-left: 16px;
+  padding: 8px 16px;
+  background: #f5f5f5;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+// Filtros avanzados
+.filters-section {
+  margin-bottom: 24px;
+}
+
+.filters-content {
+  padding: 16px 0;
+}
+
+.filter-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.filter-row:last-child {
+  margin-bottom: 0;
+}
+
+.filter-field {
+  min-width: 200px;
+}
+
+// Estadísticas
+.stats-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+}
+
+.stat-item mat-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-number {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #666;
+  margin-top: 4px;
+}
+
+// Vista de Calendario
+.calendar-view {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.calendar-header {
+  display: flex;
+  min-height: 600px;
+}
+
+.time-column {
+  width: 80px;
+  background: #f8f9fa;
+  border-right: 1px solid #e0e0e0;
+}
+
+.time-header {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #333;
+  background: #e3f2fd;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.time-slots {
+  /* position: relative; */
+  /* height: 60px; */
+  height: auto;
+}
+
+.time-slot {
+  /* height: 60px; */
+  height: auto;
+  position: static;
+  display: block;
+  border-bottom: 1px solid #f0f0f0;
+  padding: 0;
+}
+
+.time-slot:last-child {
+  border-bottom: none;
+}
+
+.days-container {
+  display: flex;
+  flex: 1;
+}
+
+.day-column {
+  flex: 1;
+  border-right: 1px solid #e0e0e0;
+}
+
+.day-column:last-child {
+  border-right: none;
+}
+
+.day-header {
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+  transition: background-color 0.2s ease;
+}
+
+.day-header.today {
+  background: linear-gradient(135deg, #1976d2, #1565c0);
+  color: white;
+}
+
+.day-header.today .day-name,
+.day-header.today .day-date {
+  color: white;
+}
+
+.day-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+  text-transform: uppercase;
+}
+
+.day-date {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  line-height: 1;
+}
+
+.time-slots .time-slot {
+  height: 60px;
+  border-bottom: 1px solid #f0f0f0;
+  position: relative;
+}
+
+.time-slots .time-slot:last-child {
+  border-bottom: none;
+}
+
+.turno-slot {
+  /* position: absolute; */
+  /* top: 2px; */
+  /* left: 2px; */
+  /* right: 2px; */
+  min-height: 60px;
+  padding: 10px 8px 8px 8px;
+  background: rgba(255,255,255,0.85) !important;
+  color: #222 !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border: 1px solid #e0e0e0;
+  margin-bottom: 6px;
+}
+
+.turno-slot:hover {
+  transform: scale(1.02);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.turno-slot.full {
+  /* background: linear-gradient(135deg, #f44336, #d32f2f); */
+  background: none;
+}
+
+.turno-slot.conflict {
+  /* background: linear-gradient(135deg, #ff9800, #f57c00); */
+  background: none;
+  animation: none;
+}
+
+.turno-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.turno-instructor {
+  font-weight: 700;
+  font-size: 13px;
+  color: #1976d2;
+  margin-bottom: 2px;
+}
+
+.turno-cupos {
+  font-size: 12px;
+  color: #444;
+  margin-bottom: 2px;
+}
+
+.turno-alumnos {
+  margin-top: 4px;
+}
+
+.alumnos-count {
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 2px;
+}
+
+.alumnos-list {
+  background: #fff;
+  border-radius: 4px;
+  padding: 4px 6px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  margin-bottom: 2px;
+}
+
+.alumno-nombre {
+  font-size: 13px;
+  color: #222;
+  font-weight: 500;
+  margin-bottom: 2px;
+  padding: 2px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.alumno-nombre:last-child {
+  border-bottom: none;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+// Vista de Tabla
+.table-view {
+  margin-top: 20px;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  gap: 16px;
+}
+
+.turnos-table {
+  width: 100%;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.horario-info {
+  .dia-hora {
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .fecha {
+    font-size: 12px;
+    color: #666;
+    margin-top: 2px;
+  }
+}
+
+.instructor-info {
+  .instructor-name {
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .instructor-email {
+    font-size: 12px;
+    color: #666;
+    margin-top: 2px;
+  }
+}
+
+.capacidad-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.capacidad-total {
+  font-weight: 500;
+  color: #333;
+}
+
+.ocupacion-bar {
+  flex: 1;
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.ocupacion-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4caf50, #45a049);
+  transition: width 0.3s ease;
+}
+
+.ocupacion-fill.full {
+  background: linear-gradient(90deg, #f44336, #d32f2f);
+}
+
+.cupos-badge {
+  background-color: #e8f5e8;
+  color: #2e7d32;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.cupos-badge.full {
+  background-color: #ffebee;
+  color: #d32f2f;
+}
+
+.cupos-badge.warning {
+  background-color: #fff3e0;
+  color: #f57c00;
+}
+
+.alumnos-list {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.alumnos-count {
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.alumnos-names {
+  font-size: 12px;
+}
+
+.more-alumnos {
+  color: #1976d2;
+  font-weight: 500;
+}
+
+.no-alumnos {
+  color: #999;
+  font-style: italic;
+}
+
+.estado-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.estado-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.estado-text {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 4px;
+}
+
+.no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.no-data mat-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  color: #ccc;
+  margin-bottom: 16px;
+}
+
+.no-data h3 {
+  margin: 0 0 8px 0;
+  color: #666;
+}
+
+.no-data p {
+  margin: 0 0 24px 0;
+  color: #999;
+}
+
+// Responsive design
+@media (max-width: 1200px) {
+  .calendar-view .calendar-header {
+    min-height: 500px;
+  }
+  
+  .time-column {
+    width: 60px;
+  }
+  
+  .time-column .time-slot {
+    font-size: 10px;
+  }
+  
+  .day-header .day-name {
+    font-size: 10px;
+  }
+  
+  .day-header .day-date {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .toolbar-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .left-toolbar, .right-toolbar {
+    justify-content: center;
+  }
+  
+  .center-toolbar {
+    justify-content: center;
+  }
+  
+  .week-display {
+    margin-left: 0;
+  }
+  
+  .stats-section {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .filter-field {
+    min-width: auto;
+    width: 100%;
+  }
+  
+  .calendar-view .calendar-header {
+    min-height: 400px;
+  }
+  
+  .time-column {
+    width: 50px;
+  }
+  
+  .time-column .time-slot {
+    font-size: 9px;
+    height: 50px;
+  }
+  
+  .day-header {
+    height: 50px;
+  }
+  
+  .day-header .day-name {
+    font-size: 9px;
+  }
+  
+  .day-header .day-date {
+    font-size: 14px;
+  }
+  
+  .time-slots .time-slot {
+    height: 50px;
+  }
+  
+  .turno-slot {
+    font-size: 9px;
+  }
+  
+  .turno-content .turno-instructor {
+    font-size: 9px;
+  }
+  
+  .turno-content .turno-cupos {
+    font-size: 8px;
+  }
+  
+  .turno-content .turno-alumnos {
+    font-size: 7px;
+  }
+  
+  .turnos-table {
+    font-size: 12px;
+  }
+  
+  .mat-mdc-cell, .mat-mdc-header-cell {
+    padding: 8px 4px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-section {
+    grid-template-columns: 1fr;
+  }
+  
+  .calendar-view .calendar-header {
+    min-height: 300px;
+  }
+  
+  .time-column {
+    width: 40px;
+  }
+  
+  .time-column .time-slot {
+    font-size: 8px;
+    height: 40px;
+  }
+  
+  .day-header {
+    height: 40px;
+  }
+  
+  .day-header .day-name {
+    font-size: 8px;
+  }
+  
+  .day-header .day-date {
+    font-size: 12px;
+  }
+  
+  .time-slots .time-slot {
+    height: 40px;
+  }
+}
+
+.turnos-excel-grid, .turnos-calendar-grid {
+  margin: 24px auto;
+  max-width: 1200px;
+}
+
+.excel-table, .calendar-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  font-size: 15px;
+  color: #222;
+}
+
+.excel-table th, .excel-table td, .calendar-table th, .calendar-table td {
+  border: 1px solid #d0d0d0;
+  padding: 6px 10px;
+  text-align: left;
+  vertical-align: top;
+  min-width: 110px;
+  background: #fff;
+}
+
+.excel-table th, .calendar-table th {
+  background: #ffe599;
+  font-weight: bold;
+  text-align: center;
+}
+
+.hora-label {
+  background: #ffe599;
+  font-weight: bold;
+  text-align: center;
+}
+
+.excel-table tr:nth-child(even), .calendar-table tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+.excel-table td, .calendar-table td {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.excel-table td > div, .calendar-table td > div {
+  margin-bottom: 2px;
+}
+
+.cupos-verde {
+  color: #2e7d32 !important;
+  font-weight: bold;
+} 

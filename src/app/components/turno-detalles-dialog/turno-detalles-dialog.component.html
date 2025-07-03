@@ -1,0 +1,176 @@
+<div class="turno-detalles-dialog">
+  <div class="dialog-header">
+    <h2 mat-dialog-title>
+      <mat-icon>schedule</mat-icon>
+      Detalles del Turno
+    </h2>
+    <button mat-icon-button (click)="onCerrar()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <mat-dialog-content class="dialog-content">
+    <div class="turno-info">
+      <!-- Información básica -->
+      <mat-card class="info-card">
+        <mat-card-header>
+          <mat-card-title>Información General</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="label">Día:</span>
+              <span class="value">{{ turno.horario.diaNombre }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Hora:</span>
+              <span class="value">{{ turno.horario.hora }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Instructor:</span>
+              <span class="value">{{ getInstructorCompleto() }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Capacidad:</span>
+              <span class="value">{{ turno.capacidad }} personas</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Estado y ocupación -->
+      <mat-card class="info-card">
+        <mat-card-header>
+          <mat-card-title>Estado y Ocupación</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="estado-section">
+            <div class="estado-info">
+              <mat-icon [color]="getEstadoColor()" class="estado-icon">
+                {{ getEstadoIcon() }}
+              </mat-icon>
+              <div class="estado-text">
+                <span class="estado-label">{{ getEstadoTexto() }}</span>
+                <span class="estado-detail">
+                  {{ turno.cuposDisponibles }} cupos disponibles de {{ turno.capacidad }}
+                </span>
+              </div>
+            </div>
+            
+            <div class="ocupacion-bar">
+              <div class="ocupacion-fill" 
+                   [style.width.%]="getOcupacionPorcentaje()"
+                   [class.full]="turno.cuposDisponibles === 0">
+              </div>
+            </div>
+            
+            <div class="ocupacion-text">
+              {{ getOcupacionPorcentaje() }}% de ocupación
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Lista de alumnos -->
+      <mat-card class="info-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon color="primary">people</mat-icon>
+            Alumnos Inscritos ({{ turno.alumnos.length }})
+          </mat-card-title>
+          <mat-card-subtitle>
+            {{ turno.alumnos.length }} de {{ turno.capacidad }} cupos ocupados
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="alumnos-section" *ngIf="turno.alumnos.length > 0; else noAlumnos">
+            <div class="alumno-item" *ngFor="let alumno of turno.alumnos; let i = index">
+              <div class="alumno-numero">{{ i + 1 }}</div>
+              <div class="alumno-info">
+                <div class="alumno-nombre">{{ getNombreCompleto(alumno) }}</div>
+                <div class="alumno-detalles">
+                  <span class="alumno-telefono" *ngIf="alumno.telefono">
+                    <mat-icon>phone</mat-icon>
+                    {{ alumno.telefono }}
+                  </span>
+                  <span class="alumno-telefono" *ngIf="!alumno.telefono">
+                    <mat-icon>phone_disabled</mat-icon>
+                    Sin teléfono
+                  </span>
+                </div>
+              </div>
+              <div class="alumno-estado">
+                <mat-icon [color]="alumno.cuotaPagada ? 'primary' : 'warn'" class="estado-icon">
+                  {{ alumno.cuotaPagada ? 'check_circle' : 'warning' }}
+                </mat-icon>
+                <span class="estado-text" [class.pagada]="alumno.cuotaPagada">
+                  {{ alumno.cuotaPagada ? 'Cuota Pagada' : 'Pendiente' }}
+                </span>
+              </div>
+            </div>
+            
+            <!-- Resumen de cuotas -->
+            <div class="cuotas-resumen" *ngIf="turno.alumnos.length > 0">
+              <div class="resumen-item">
+                <span class="resumen-label">Cuotas pagadas:</span>
+                <span class="resumen-value pagadas">
+                  {{ getAlumnosConCuotaPagada() }}
+                </span>
+              </div>
+              <div class="resumen-item">
+                <span class="resumen-label">Pendientes:</span>
+                <span class="resumen-value pendientes">
+                  {{ getAlumnosSinCuotaPagada() }}
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <ng-template #noAlumnos>
+            <div class="no-alumnos">
+              <mat-icon>people_outline</mat-icon>
+              <span>No hay alumnos inscritos en este turno</span>
+              <p class="no-alumnos-subtitle">
+                Este turno está disponible para {{ turno.capacidad }} alumnos
+              </p>
+            </div>
+          </ng-template>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Información del instructor -->
+      <mat-card class="info-card" *ngIf="turno.instructor.telefono">
+        <mat-card-header>
+          <mat-card-title>Información del Instructor</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="instructor-info">
+            <div class="instructor-item" *ngIf="turno.instructor.telefono">
+              <mat-icon>phone</mat-icon>
+              <span>{{ turno.instructor.telefono }}</span>
+            </div>
+            <div class="instructor-item">
+              <mat-icon>percent</mat-icon>
+              <span>Porcentaje de pago: {{ turno.instructor.porcentajePago }}%</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="dialog-actions">
+    <button mat-button (click)="onCerrar()">
+      <mat-icon>close</mat-icon>
+      Cerrar
+    </button>
+    <button mat-raised-button color="primary" (click)="onEditar()">
+      <mat-icon>edit</mat-icon>
+      Editar
+    </button>
+    <button mat-raised-button color="warn" (click)="onEliminar()">
+      <mat-icon>delete</mat-icon>
+      Eliminar
+    </button>
+  </mat-dialog-actions>
+</div> 

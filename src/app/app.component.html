@@ -1,0 +1,110 @@
+<mat-toolbar color="primary" class="main-toolbar" *ngIf="isAuthenticated">
+  <div class="toolbar-content" style="display: flex; align-items: center; width: 100%;">
+    <img src="assets/logo.png" alt="Logo Amo Pilates" style="height: 40px; width: auto; margin-right: 16px;" />
+    <span class="toolbar-title">{{ title }}</span>
+    <span style="flex: 1 1 auto;"></span>
+    <button mat-icon-button 
+            class="menu-toggle" 
+            [matMenuTriggerFor]="mainMenu" 
+            aria-label="Menú principal">
+      <mat-icon>menu</mat-icon>
+    </button>
+    
+
+    
+    <!-- Menú principal -->
+    <mat-menu #mainMenu="matMenu" class="main-menu">
+      <div class="menu-header" *ngIf="currentUser">
+        <div class="user-info-menu">
+          <mat-icon>account_circle</mat-icon>
+          <div class="user-details">
+            <span class="user-name">{{ getUserDisplayName() }}</span>
+            <span class="user-role">{{ getUserRole() }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <mat-divider></mat-divider>
+      
+      <button mat-menu-item routerLink="/dashboard" (click)="closeMenu()">
+        <mat-icon>dashboard</mat-icon>
+        <span>Dashboard</span>
+      </button>
+      
+      <button mat-menu-item routerLink="/turnos" (click)="closeMenu()">
+        <mat-icon>schedule</mat-icon>
+        <span>Gestionar Turnos</span>
+      </button>
+      
+      <button mat-menu-item routerLink="/turnos-calendario" (click)="closeMenu()">
+        <mat-icon>grid_on</mat-icon>
+        <span>Turnos-Grilla</span>
+      </button>
+      
+      <button mat-menu-item routerLink="/alumnos" (click)="closeMenu()">
+        <mat-icon>people</mat-icon>
+        <span>Gestionar Alumnos</span>
+      </button>
+      
+      <button mat-menu-item routerLink="/instructores" (click)="closeMenu()">
+        <mat-icon>fitness_center</mat-icon>
+        <span>Gestionar Instructores</span>
+      </button>
+      
+      <button mat-menu-item routerLink="/horarios" (click)="closeMenu()">
+        <mat-icon>access_time</mat-icon>
+        <span>Gestionar Horarios</span>
+      </button>
+      
+      <button mat-menu-item routerLink="/tarifas" (click)="closeMenu()">
+        <mat-icon>attach_money</mat-icon>
+        <span>Gestionar Tarifas</span>
+      </button>
+      
+      <button mat-menu-item routerLink="/pagos" (click)="closeMenu()">
+        <mat-icon>payment</mat-icon>
+        <span>Gestionar Pagos</span>
+      </button>
+      
+      <button mat-menu-item routerLink="/reportes" (click)="closeMenu()">
+        <mat-icon>assessment</mat-icon>
+        <span>Reportes</span>
+      </button>
+      
+      <mat-divider></mat-divider>
+      
+      <div class="menu-actions">
+        <button mat-menu-item (click)="testApiConnection(); closeMenu()">
+          <mat-icon>wifi</mat-icon>
+          <span>Probar Conexión</span>
+        </button>
+        
+        <button mat-menu-item (click)="showDebugInfo(); closeMenu()">
+          <mat-icon>bug_report</mat-icon>
+          <span>Debug Info</span>
+        </button>
+        
+        <button mat-menu-item (click)="logout(); closeMenu()" class="logout-button">
+          <mat-icon>logout</mat-icon>
+          <span>Cerrar Sesión</span>
+        </button>
+      </div>
+    </mat-menu>
+  </div>
+</mat-toolbar>
+
+<div class="main-content" [class.authenticated]="isAuthenticated">
+  <router-outlet></router-outlet>
+</div>
+
+<footer class="footer-social" *ngIf="isAuthenticated">
+  <div class="footer-content">
+    <a href="https://www.instagram.com/amo.pilates_gaiman/?hl=es" target="_blank" rel="noopener" aria-label="Instagram Amo Pilates">
+      <img src="assets/instagram.svg" alt="Instagram" class="social-icon" />
+    </a>
+    <span class="footer-separator">|</span>
+    <a href="https://wa.me/542804586257" target="_blank" rel="noopener" aria-label="WhatsApp Amo Pilates">
+      <img src="assets/whatsapp.svg" alt="WhatsApp" class="social-icon" />
+    </a>
+  </div>
+</footer> 

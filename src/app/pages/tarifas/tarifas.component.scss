@@ -1,0 +1,72 @@
+.controls-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+
+  .left-controls {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+
+  button {
+    transition: all 0.2s ease;
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
+
+.action-buttons button.mat-icon-button {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.action-buttons button.mat-icon-button[color="primary"] mat-icon {
+  color: #1976d2 !important;
+}
+
+.action-buttons button.mat-icon-button[color="warn"] .mat-icon,
+.action-buttons button.mat-mdc-icon-button[color="warn"] .mat-icon {
+  color: #f44336 !important;
+  background: transparent !important;
+  border-radius: 50%;
+  transition: background 0.2s;
+  font-size: 24px !important;
+}
+
+.action-buttons button.mat-icon-button[color="warn"]:hover .mat-icon,
+.action-buttons button.mat-mdc-icon-button[color="warn"]:hover .mat-icon {
+  background: rgba(244,67,54,0.12) !important;
+}
+
+.mat-icon, mat-icon {
+  vertical-align: middle;
+  font-size: 1.4rem;
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.mat-raised-button, .mat-icon-button {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.mat-mdc-header-cell {
+  background: #f8f9fa;
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 0.9rem;
+}
+
+.left-controls button.mat-raised-button mat-icon {
+  color: #fff !important;
+}
